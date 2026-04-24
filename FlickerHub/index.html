@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FlickerHub SSVEP Stimulus Console</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="top-bar">
+        <h1>FlickerHub</h1>
+        <p>SSVEP Stimulus Console for Multi-Display Validation</p>
+      </header>
+
+      <aside class="panel panel-monitor" aria-label="runtime monitor">
+        <h2>Runtime Monitor</h2>
+        <section>
+          <h3>Observed (Browser)</h3>
+          <ul id="observed-values" class="kv-list"></ul>
+        </section>
+        <section>
+          <h3>Profile (Configured)</h3>
+          <ul id="profile-values" class="kv-list"></ul>
+        </section>
+        <section>
+          <h3>Stimulus State</h3>
+          <ul id="stimulus-values" class="kv-list"></ul>
+        </section>
+      </aside>
+
+      <main class="stage-wrap">
+        <div id="stimulus-stage" class="stimulus-stage" aria-label="stimulus area"></div>
+      </main>
+
+      <aside class="panel panel-control" aria-label="controls">
+        <h2>Control</h2>
+        <label>Profile
+          <select id="profile-select"></select>
+        </label>
+
+        <label>Frequency Group
+          <select id="frequency-group-select">
+            <option value="recommended">Recommended</option>
+            <option value="experiment">Experiment</option>
+          </select>
+        </label>
+
+        <label>Engine Mode
+          <select id="engine-mode-select">
+            <option value="frame-locked">Frame Locked</option>
+            <option value="continuous-phase">Continuous Phase</option>
+          </select>
+        </label>
+
+        <label>Output Mode
+          <select id="output-mode-select">
+            <option value="binary">Binary</option>
+            <option value="grayscale">Grayscale</option>
+          </select>
+        </label>
+
+        <label>Shape
+          <select id="shape-select">
+            <option value="circle">Circle</option>
+            <option value="square">Square</option>
+            <option value="outline">Outline</option>
+            <option value="block">Block</option>
+          </select>
+        </label>
+
+        <div class="button-row">
+          <button id="toggle-run-button" type="button">Pause</button>
+          <button id="fullscreen-button" type="button">Fullscreen</button>
+        </div>
+
+        <details>
+          <summary>Add Custom Profile</summary>
+          <div class="custom-profile-form">
+            <label>Name
+              <input id="custom-name" type="text" placeholder="Lab Display A" />
+            </label>
+            <label>Resolution
+              <input id="custom-resolution" type="text" placeholder="1920x1080" />
+            </label>
+            <label>Nominal Refresh Hz
+              <input id="custom-refresh" type="number" step="0.01" value="60" />
+            </label>
+            <label>Recommended (4, comma)
+              <input id="custom-recommended" type="text" placeholder="8,10,12,15" />
+            </label>
+            <label>Experiment (4, comma)
+              <input id="custom-experiment" type="text" placeholder="8,12,15,20" />
+            </label>
+            <button id="add-profile-button" type="button">Add Profile</button>
+          </div>
+        </details>
+
+        <div class="event-log-wrap">
+          <h3>Event Log</h3>
+          <ul id="event-log" class="event-log"></ul>
+        </div>
+      </aside>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,267 @@
+:root {
+  --bg-main: #000000;
+  --bg-panel: rgba(0, 0, 0, 0.92);
+  --bg-stage: #000000;
+  --text-main: #e8f1f5;
+  --text-dim: #9bb5c2;
+  --accent: #ff7f11;
+  --line: rgba(220, 241, 250, 0.18);
+  --slot1: #ffffff;
+  --slot2: #ffffff;
+  --slot3: #ffffff;
+  --slot4: #ffffff;
+  --panel-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text-main);
+  font-family: "IBM Plex Sans", "Noto Sans SC", sans-serif;
+  background: var(--bg-main);
+  min-height: 100vh;
+}
+
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(260px, 20vw) 1fr minmax(260px, 22vw);
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  gap: 10px;
+  padding: 10px;
+}
+
+.top-bar {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.94);
+  border: 1px solid var(--line);
+}
+
+.top-bar h1 {
+  margin: 0;
+  letter-spacing: 1px;
+  font-size: 1.5rem;
+}
+
+.top-bar p {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.panel {
+  border-radius: 14px;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--panel-shadow);
+  overflow: auto;
+}
+
+.panel h2 {
+  margin: 0;
+  font-size: 1.1rem;
+  padding: 14px 14px 8px;
+}
+
+.panel h3 {
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin: 0 0 8px;
+}
+
+.panel section,
+.panel-control > * {
+  margin: 0 14px 12px;
+}
+
+.kv-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+}
+
+.kv-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.84rem;
+  border-bottom: 1px dashed rgba(225, 238, 245, 0.16);
+  padding-bottom: 4px;
+}
+
+.kv-list .key {
+  color: var(--text-dim);
+}
+
+.stage-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--bg-stage);
+  box-shadow: var(--panel-shadow);
+  position: relative;
+}
+
+.stimulus-stage {
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  position: relative;
+}
+
+.stimulus {
+  position: absolute;
+  width: clamp(64px, 7vw, 118px);
+  height: clamp(64px, 7vw, 118px);
+  transform: translate(-50%, -50%);
+  transition: opacity 0.03s linear, transform 0.2s ease;
+  display: grid;
+  place-items: center;
+}
+
+.stimulus::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+}
+
+.stimulus[data-active="1"] {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.stimulus-label {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8rem;
+  color: #f7f7f7;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
+  white-space: nowrap;
+}
+
+.shape-circle::before {
+  border-radius: 50%;
+}
+
+.shape-square::before {
+  border-radius: 8px;
+}
+
+.shape-outline::before {
+  background: transparent;
+  border: 6px solid currentColor;
+  border-radius: 10px;
+}
+
+.shape-block::before {
+  border-radius: 0;
+}
+
+.slot-1 {
+  color: var(--slot1);
+}
+
+.slot-2 {
+  color: var(--slot2);
+}
+
+.slot-3 {
+  color: var(--slot3);
+}
+
+.slot-4 {
+  color: var(--slot4);
+}
+
+.panel-control {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-control label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+}
+
+select,
+input,
+button {
+  border: 1px solid rgba(223, 237, 245, 0.24);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.95);
+  color: var(--text-main);
+  padding: 8px;
+  font-size: 0.86rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.custom-profile-form {
+  display: grid;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.event-log-wrap {
+  margin-top: auto;
+}
+
+.event-log {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 5px;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.event-log li {
+  font-size: 0.78rem;
+  color: #cde3ef;
+  border-left: 2px solid rgba(253, 127, 17, 0.6);
+  padding-left: 6px;
+}
+
+@media (max-width: 1080px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto minmax(360px, 1fr) auto;
+  }
+
+  .panel-monitor,
+  .panel-control {
+    max-height: 340px;
+  }
+
+  .stage-wrap {
+    min-height: 420px;
+  }
+}

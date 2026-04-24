@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EEG Dashboard</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="topbar">
+      <div class="title-block">
+        <p class="eyebrow">BrainFlow EEG Monitor</p>
+        <h1>EEG Dashboard</h1>
+        <p class="subtitle">单屏查看波形、频谱、频带功率和通道统计。</p>
+      </div>
+      <div class="hero-card">
+        <div class="status-row">
+          <span id="status-dot" class="status-dot"></span>
+          <span id="status-text">Disconnected</span>
+        </div>
+        <p id="meta-text" class="meta-text">等待连接设备</p>
+        <div class="controls-inline">
+          <label>
+            串口
+            <input id="serial-port" value="COM4" />
+          </label>
+          <label>
+            Board ID
+            <select id="board-id">
+              <option value="0">Cyton</option>
+              <option value="2">Cyton Daisy</option>
+            </select>
+          </label>
+          <label>
+            窗口秒数
+            <input id="window-seconds" type="number" min="2" max="20" value="6" />
+          </label>
+          <div class="button-row">
+            <button id="connect-btn">连接</button>
+            <button id="disconnect-btn" class="secondary">断开</button>
+          </div>
+        </div>
+        <div class="calibration-strip">
+          <div class="calibration-head">
+            <strong>校正</strong>
+            <span id="calibration-text" class="calibration-text">Normal</span>
+          </div>
+          <div class="calibration-buttons">
+            <button id="calibration-normal-btn" class="secondary calibration-btn">正常</button>
+            <button id="calibration-ground-btn" class="secondary calibration-btn">接地</button>
+            <button id="calibration-slow-btn" class="secondary calibration-btn">慢方波</button>
+            <button id="calibration-fast-btn" class="secondary calibration-btn">快方波</button>
+          </div>
+        </div>
+        <p id="message" class="message"></p>
+      </div>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="card impedance-card">
+        <div class="section-head">
+          <h2>Impedance</h2>
+          <span>单通道测量 / 全通道轮测</span>
+        </div>
+        <div class="impedance-toolbar">
+          <button id="impedance-scan-all-btn">轮测全部</button>
+          <button id="impedance-clear-btn" class="secondary">清空结果</button>
+        </div>
+        <p id="impedance-note" class="impedance-note">
+          官方 Cyton 阻抗测试依赖 31.5 Hz 注入电流，建议在佩戴调整阶段使用。数值越低通常代表接触越好，但不需要追求绝对 0。
+        </p>
+        <div class="table-wrap impedance-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>阻抗</th>
+                <th>31.5 Hz RMS</th>
+                <th>状态</th>
+                <th>动作</th>
+              </tr>
+            </thead>
+            <tbody id="impedance-body"></tbody>
+          </table>
+        </div>
+        <div class="docs-block">
+          <strong>官方文档</strong>
+          <a href="https://docs.openbci.com/Cyton/CytonSDK/#leadoff-impedance-commands" target="_blank" rel="noreferrer">Cyton SDK: LeadOff Impedance Commands</a>
+          <a href="https://docs.openbci.com/Software/OpenBCISoftware/GUIDocs/#impedance-testing" target="_blank" rel="noreferrer">OpenBCI GUI: Impedance Testing</a>
+          <a href="https://docs.openbci.com/Software/OpenBCISoftware/GUIWidgets/#impedance-mode" target="_blank" rel="noreferrer">Cyton Signal Widget: Impedance Mode</a>
+          <a href="https://brainflow.readthedocs.io/en/stable/UserAPI.html#brainflow.board_shim.BoardShim.config_board" target="_blank" rel="noreferrer">BrainFlow User API: config_board</a>
+        </div>
+      </article>
+
+      <article class="card wide raw-card">
+        <div class="section-head">
+          <h2>Raw EEG</h2>
+          <span>所有通道叠加显示</span>
+        </div>
+        <div id="signals" class="chart-panel"></div>
+      </article>
+
+      <article class="card bands-card">
+        <div class="section-head">
+          <h2>Band Power</h2>
+          <span>频段 × 通道</span>
+        </div>
+        <div id="bands" class="bands-grid"></div>
+      </article>
+
+      <article class="card wide spectrum-card">
+        <div class="section-head">
+          <h2>Spectrum</h2>
+          <span>0-60 Hz 合并视图</span>
+        </div>
+        <div id="spectra" class="chart-panel"></div>
+      </article>
+
+      <article class="card stats-card">
+        <div class="section-head">
+          <h2>Channel Stats</h2>
+          <span>紧凑统计表</span>
+        </div>
+        <div id="stats-distribution" class="chart-panel stats-distribution"></div>
+        <div class="table-wrap">
+          <table>
+          <thead>
+            <tr>
+              <th>Channel</th>
+              <th>Mean</th>
+              <th>Std</th>
+              <th>Min</th>
+              <th>Max</th>
+            </tr>
+          </thead>
+          <tbody id="stats-body"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
